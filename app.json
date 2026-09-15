@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Ford Radar",
+    "slug": "ford-radar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ford.radar"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#080D14"
+      },
+      "package": "com.ford.radar"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-font"
+    ]
+  }
+}
