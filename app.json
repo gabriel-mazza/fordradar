@@ -22,6 +22,11 @@
     "plugins": [
       "expo-secure-store",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "53a9448d-09e8-41dc-ac22-6ade5f9e8f0c"
+      }
+    }
   }
 }

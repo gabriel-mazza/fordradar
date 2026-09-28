@@ -13,12 +13,12 @@
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "https://SUA-API-PUBLICA.exemplo.com" }
+      "env": { "EXPO_PUBLIC_API_URL": "https://fordradar-backend.onrender.com" }
     },
     "production": {
       "autoIncrement": true,
       "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "https://SUA-API-PUBLICA.exemplo.com" }
+      "env": { "EXPO_PUBLIC_API_URL": "https://fordradar-backend.onrender.com" }
     }
   },
   "submit": { "production": {} }
