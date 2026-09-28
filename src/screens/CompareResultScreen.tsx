@@ -62,7 +62,7 @@ function CompareRow({ label, fordValue, competitorValue }: RowProps) {
       <Text style={rowStyles.label}>{label}</Text>
 
       <View style={rowStyles.cells}>
-        {/* Ford cell */}
+        
         <View style={[rowStyles.cell, rowStyles.fordCell]}>
           <Text
             style={[
@@ -74,7 +74,7 @@ function CompareRow({ label, fordValue, competitorValue }: RowProps) {
           </Text>
         </View>
 
-        {/* Competitor cell */}
+       
         <View
           style={[
             rowStyles.cell,
@@ -176,7 +176,7 @@ export default function CompareResultScreen({
     [result.technicalSpec]
   );
 
-  // Mock Ford Ranger Raptor specs for the comparison
+  
   const fordSpec: Record<string, string> = {
     motor: '3.0L V6 EcoBoost Biturbo',
     potência: '397 cv a 5.650 rpm',
@@ -221,10 +221,10 @@ export default function CompareResultScreen({
           onBack={() => navigation.goBack()}
         />
 
-        {/* Summary */}
+        
         <Card style={styles.summaryCard}>
           <View style={styles.vsRow}>
-            {/* Ford */}
+            
             <View style={styles.vsItem}>
               <View
                 style={[
@@ -259,7 +259,7 @@ export default function CompareResultScreen({
               <Text style={styles.vsText}>VS</Text>
             </View>
 
-            {/* Competitor */}
+            
             <View style={styles.vsItem}>
               <View
                 style={[
@@ -291,10 +291,10 @@ export default function CompareResultScreen({
           </View>
         </Card>
 
-        {/* Advantages badge */}
+        
         {advantages.length > 0 && (
           <View style={styles.advantageBanner}>
-            {/* <Text style={styles.advantageIcon}>✅</Text> */}
+            
 
             <Text style={styles.advantageText}>
               A Ranger Raptor tem vantagem em{' '}
@@ -304,7 +304,7 @@ export default function CompareResultScreen({
           </View>
         )}
 
-        {/* Column headers */}
+        
         <View style={styles.colHeaders}>
           <View style={styles.colHeaderCells}>
             <View
@@ -326,7 +326,7 @@ export default function CompareResultScreen({
           </View>
         </View>
 
-        {/* Rows */}
+        
         <Card>
           {displayAttributes.map((attr, i) => {
             const fordVal =
@@ -355,7 +355,7 @@ export default function CompareResultScreen({
           })}
         </Card>
 
-        {/* Retention Radar */}
+        
         <View style={styles.retentionSection}>
           <SectionHeader
             title="Radar de Retenção"
@@ -417,7 +417,7 @@ export default function CompareResultScreen({
           </Card>
         </View>
 
-        {/* New comparison */}
+        
         <TouchableOpacity
           style={styles.newBtn}
           onPress={() =>

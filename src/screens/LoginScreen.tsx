@@ -24,7 +24,7 @@ export default function LoginScreen({ navigation }: any) {
     const e: typeof errors = {};
 
     if (!email.includes('@')) e.email = 'E-mail inválido';
-    if (password.length < 4) e.password = 'Senha muito curta';
+    if (password.length === 0) e.password = 'Informe a senha';
 
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }: any) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* Cabeçalho */}
+        
         <View style={styles.header}>
           <View style={styles.logoGlow}>
             <View style={styles.logoRing}>
@@ -77,7 +77,7 @@ export default function LoginScreen({ navigation }: any) {
           </Text>
         </View>
 
-        {/* Card de acesso */}
+        
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             <View>
@@ -117,7 +117,7 @@ export default function LoginScreen({ navigation }: any) {
             style={styles.btn}
           />
 
-          {/* Indicador de segurança */}
+          
           <View style={styles.security}>
             <Text style={styles.securityIcon}>✓</Text>
             <Text style={styles.securityText}>
@@ -126,7 +126,7 @@ export default function LoginScreen({ navigation }: any) {
           </View>
         </View>
 
-        {/* Criar conta */}
+        
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
           style={styles.registerLink}
@@ -138,7 +138,7 @@ export default function LoginScreen({ navigation }: any) {
           </Text>
         </TouchableOpacity>
 
-        {/* Rodapé */}
+        
         <View style={styles.footerContainer}>
           <View style={styles.footerLine} />
           <Text style={styles.footer}>FORD RADAR</Text>
@@ -162,9 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  /* =========================
-     HEADER
-  ========================= */
+  
 
   header: {
     alignItems: 'center',
@@ -233,9 +231,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 
-  /* =========================
-     CARD
-  ========================= */
+  
 
   card: {
     backgroundColor: colors.bgCard,
@@ -244,7 +240,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
 
-    // Sombra discreta para dar profundidade
+    
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -291,9 +287,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
 
-  /* =========================
-     SEGURANÇA
-  ========================= */
+  
 
   security: {
     flexDirection: 'row',
@@ -314,9 +308,7 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
 
-  /* =========================
-     CADASTRO
-  ========================= */
+  
 
   registerLink: {
     alignItems: 'center',
@@ -333,9 +325,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  /* =========================
-     FOOTER
-  ========================= */
+  
 
   footerContainer: {
     flexDirection: 'row',

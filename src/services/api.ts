@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-// Change this to your backend URL when deploying
-// For local dev with physical device, use your machine's IP
-// For emulator, use 10.0.2.2 (Android) or localhost (iOS)
-const BASE_URL = 'http://10.0.2.2:8081'; // Android emulator default
+const DEV_FALLBACK = 'http://10.0.2.2:8081'; 
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL || (__DEV__ ? DEV_FALLBACK : '');
+
+if (!__DEV__ && !BASE_URL.startsWith('https://')) {
+  throw new Error('EXPO_PUBLIC_API_URL deve ser uma URL https:// em builds de release.');
+}
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -13,16 +15,28 @@ const api = axios.create({
   timeout: 30000,
 });
 
-// Intercept requests to add JWT token
-api.interceptors.request.use(
-  (config) => {
-    // Token is injected per-call via setAuthToken
-    return config;
-  },
-  (error) => Promise.reject(error)
+
+
+let onUnauthorized: (() => void) | null = null;
+
+export function setUnauthorizedHandler(handler: (() => void) | null) {
+  onUnauthorized = handler;
+}
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+    const url: string = error?.config?.url ?? '';
+    const isAuthRoute = url.includes('/api/v1/auth/');
+    if (status === 401 && !isAuthRoute && onUnauthorized) {
+      onUnauthorized();
+    }
+    return Promise.reject(error);
+  }
 );
 
-// ─── Auth ───────────────────────────────────────────────────────────────────
+
 
 export function setAuthToken(token: string | null) {
   if (token) {
@@ -37,16 +51,11 @@ export async function login(email: string, password: string) {
   return data as { token: string };
 }
 
-export async function register(
-  name: string,
-  email: string,
-  password: string,
-  role: 'ADMIN' | 'ANALISTA' = 'ANALISTA'
-) {
-  await api.post('/api/v1/auth/register', { name, email, password, role });
+
+export async function register(name: string, email: string, password: string) {
+  await api.post('/api/v1/auth/register', { name, email, password });
 }
 
-// ─── Vehicles ────────────────────────────────────────────────────────────────
 
 export interface CompareRequest {
   brand: string;
@@ -69,7 +78,7 @@ export async function compareVehicle(payload: CompareRequest) {
   return data;
 }
 
-// ─── Predictions ─────────────────────────────────────────────────────────────
+
 
 export interface PredictionRequest {
   vin: string;

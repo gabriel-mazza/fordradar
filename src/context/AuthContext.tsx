@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { setAuthToken } from '../services/api';
+import { setAuthToken, setUnauthorizedHandler } from '../services/api';
 
 interface AuthContextData {
   token: string | null;
@@ -21,7 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load stored token on startup
+    
     (async () => {
       try {
         const storedToken = await SecureStore.getItemAsync(TOKEN_KEY);
@@ -32,7 +32,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         if (storedName) setUserName(storedName);
       } catch {
-        // Token not found, user must log in
       } finally {
         setIsLoading(false);
       }
@@ -56,6 +55,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(null);
     setUserName(null);
   };
+
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      logout();
+    });
+    return () => setUnauthorizedHandler(null);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, userName, isLoading, saveToken, logout }}>

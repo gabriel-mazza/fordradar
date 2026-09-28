@@ -142,7 +142,7 @@ export default function HomeScreen({ navigation }: any) {
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        {/* Top bar */}
+        
         <View style={styles.topBar}>
           <View>
             <Text style={styles.greet}>
@@ -175,7 +175,7 @@ export default function HomeScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
 
-        {/* Hero */}
+        
         <View style={styles.hero}>
           <View style={styles.heroGlow} />
           <View style={styles.heroAccent} />
@@ -267,7 +267,7 @@ export default function HomeScreen({ navigation }: any) {
           </View>
         </View>
 
-        {/* Section */}
+        
         <View style={styles.sectionHeader}>
           <View>
             <Text style={styles.sectionLabel}>
@@ -286,7 +286,7 @@ export default function HomeScreen({ navigation }: any) {
           </View>
         </View>
 
-        {/* Menu */}
+        
         <MenuCard
           icon="flash-outline"
           title="Radar da Concorrência"
@@ -310,7 +310,7 @@ export default function HomeScreen({ navigation }: any) {
           }
         />
 
-        {/* Footer hint */}
+        
         <View style={styles.hint}>
           <View style={styles.hintIcon}>
             <Ionicons

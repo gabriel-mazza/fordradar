@@ -23,7 +23,8 @@ export default function RegisterScreen({ navigation }: any) {
 
     if (name.trim().length < 2) e.name = 'Nome muito curto';
     if (!email.includes('@')) e.email = 'E-mail inválido';
-    if (password.length < 6) e.password = 'Senha: mínimo 6 caracteres';
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}$/.test(password))
+      e.password = 'Senha: mín. 8 caracteres, com maiúscula, minúscula, número e símbolo';
 
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -61,13 +62,13 @@ export default function RegisterScreen({ navigation }: any) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* Cabeçalho */}
+        
         <BackHeader
           title="Criar Conta"
           onBack={() => navigation.goBack()}
         />
 
-        {/* Card de cadastro */}
+        
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             <View style={styles.headerContent}>
@@ -82,7 +83,7 @@ export default function RegisterScreen({ navigation }: any) {
 
           <View style={styles.divider} />
 
-          {/* Dados pessoais */}
+          
           <Text style={styles.sectionLabel}>DADOS DE ACESSO</Text>
 
           <Input
@@ -112,7 +113,7 @@ export default function RegisterScreen({ navigation }: any) {
             error={errors.password}
           />
 
-          {/* Perfil */}
+          
           <View style={styles.roleInfo}>
             <View style={styles.roleIcon}>
               <Text style={styles.roleIconText}>✓</Text>
@@ -133,7 +134,7 @@ export default function RegisterScreen({ navigation }: any) {
             style={styles.btn}
           />
 
-          {/* Segurança */}
+          
           <View style={styles.security}>
             <Text style={styles.securityIcon}>✓</Text>
             <Text style={styles.securityText}>
@@ -142,7 +143,7 @@ export default function RegisterScreen({ navigation }: any) {
           </View>
         </View>
 
-        {/* Rodapé */}
+        
         <View style={styles.footer}>
           <View style={styles.footerLine} />
 
@@ -169,9 +170,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
 
-  /* =========================
-     CARD
-  ========================= */
+ 
 
   card: {
     backgroundColor: colors.bgCard,
@@ -181,7 +180,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     marginTop: spacing.md,
 
-    // Sombra discreta
+    
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -230,9 +229,7 @@ const styles = StyleSheet.create({
     marginVertical: spacing.lg,
   },
 
-  /* =========================
-     SEÇÃO
-  ========================= */
+
 
   sectionLabel: {
     fontSize: 10,
@@ -242,9 +239,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
 
-  /* =========================
-     PERFIL
-  ========================= */
+ 
 
   roleInfo: {
     flexDirection: 'row',
@@ -291,17 +286,13 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
 
-  /* =========================
-     BOTÃO
-  ========================= */
+  
 
   btn: {
     marginTop: spacing.xs,
   },
 
-  /* =========================
-     SEGURANÇA
-  ========================= */
+ 
 
   security: {
     flexDirection: 'row',
@@ -322,9 +313,7 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
 
-  /* =========================
-     FOOTER
-  ========================= */
+  
 
   footer: {
     flexDirection: 'row',

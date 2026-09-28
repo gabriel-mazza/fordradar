@@ -1,15 +1,15 @@
 export const colors = {
-  // Ford brand
+  
   fordBlue: '#003087',
   fordBlueLight: '#0561AC',
   fordBlueDark: '#001E5A',
 
-  // Accent
+  
   accent: '#00A6FF',
   accentGlow: 'rgba(0, 166, 255, 0.15)',
   accentDim: 'rgba(0, 166, 255, 0.4)',
 
-  // Status
+  
   success: '#00D68F',
   successBg: 'rgba(0, 214, 143, 0.1)',
   warning: '#FFB800',
@@ -17,7 +17,7 @@ export const colors = {
   danger: '#FF4D4D',
   dangerBg: 'rgba(255, 77, 77, 0.1)',
 
-  // Neutrals - dark theme
+  
   bg: '#080D14',
   bgCard: '#0D1520',
   bgElevated: '#121D2B',
@@ -25,20 +25,20 @@ export const colors = {
   border: '#1C2D40',
   borderFocus: '#0561AC',
 
-  // Text
+  
   textPrimary: '#E8F0FE',
   textSecondary: '#7A9BBF',
   textMuted: '#445D73',
   textInverse: '#080D14',
 
-  // Score colors
+  
   scoreHigh: '#00D68F',
   scoreMid: '#FFB800',
   scoreLow: '#FF4D4D',
 };
 
 export const fonts = {
-  // Using system fonts for React Native compatibility
+  
   heading: 'System',
   body: 'System',
   mono: 'Courier New',

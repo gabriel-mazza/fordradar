@@ -7,12 +7,13 @@ import {
   TextInput,
   StyleSheet,
   ViewStyle,
+  StyleProp,
   TextStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, radius, shadow } from '../theme';
 
-// ─── Button ──────────────────────────────────────────────────────────────────
+
 
 interface ButtonProps {
   title: string;
@@ -110,7 +111,7 @@ const btnStyles = StyleSheet.create({
   },
 });
 
-// ─── Input ───────────────────────────────────────────────────────────────────
+
 
 interface InputProps {
   label: string;
@@ -208,11 +209,11 @@ const inputStyles = StyleSheet.create({
   },
 });
 
-// ─── Card ────────────────────────────────────────────────────────────────────
+
 
 interface CardProps {
   children: ReactNode;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export function Card({ children, style }: CardProps) {
@@ -234,7 +235,7 @@ const cardStyles = StyleSheet.create({
   },
 });
 
-// ─── ScoreBadge ──────────────────────────────────────────────────────────────
+
 
 export function ScoreBadge({ score }: { score: number }) {
   const color =
@@ -293,7 +294,7 @@ const scoreBadgeStyles = StyleSheet.create({
   },
 });
 
-// ─── SectionHeader ───────────────────────────────────────────────────────────
+
 
 export function SectionHeader({
   title,
@@ -335,7 +336,7 @@ const sectionStyles = StyleSheet.create({
   },
 });
 
-// ─── Tag ─────────────────────────────────────────────────────────────────────
+
 
 export function Tag({
   label,
@@ -392,7 +393,7 @@ const tagStyles = StyleSheet.create({
   },
 });
 
-// ─── BackHeader ──────────────────────────────────────────────────────────────
+
 
 export function BackHeader({
   title,

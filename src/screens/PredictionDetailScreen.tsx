@@ -41,9 +41,7 @@ type MockPrediction = {
 };
 
 
-// ============================================================
-// LINHA DE INFORMAÇÃO
-// ============================================================
+
 
 function InfoRow({
   label,
@@ -92,9 +90,7 @@ const infoStyles = StyleSheet.create({
 });
 
 
-// ============================================================
-// SCORE DE RETENÇÃO
-// ============================================================
+
 
 function ScoreGauge({
   score,
@@ -249,9 +245,7 @@ const gaugeStyles = StyleSheet.create({
 });
 
 
-// ============================================================
-// TELA DE DETALHES
-// ============================================================
+
 
 export default function PredictionDetailScreen({
   route,
@@ -265,9 +259,7 @@ export default function PredictionDetailScreen({
     Number(prediction.retentionScore);
 
 
-  // ==========================================================
-  // HISTÓRICO DE AÇÕES
-  // ==========================================================
+  
 
   const [actions, setActions] =
     useState<ActionHistory[]>(
@@ -275,9 +267,7 @@ export default function PredictionDetailScreen({
     );
 
 
-  // ==========================================================
-  // RECOMENDAÇÕES DE RETENÇÃO
-  // ==========================================================
+ 
 
   const recommendedActions =
     score >= 70
@@ -299,9 +289,7 @@ export default function PredictionDetailScreen({
         ];
 
 
-  // ==========================================================
-  // REGISTRAR AÇÃO
-  // ==========================================================
+
 
   function addAction(
     text: string,
@@ -331,9 +319,7 @@ export default function PredictionDetailScreen({
   }
 
 
-  // ==========================================================
-  // REGISTRAR CONTATO
-  // ==========================================================
+ 
 
   function simulateContact() {
 
@@ -349,9 +335,7 @@ export default function PredictionDetailScreen({
   }
 
 
-  // ==========================================================
-  // AGENDAR ACOMPANHAMENTO
-  // ==========================================================
+ 
 
   function scheduleFollowUp() {
 
@@ -367,9 +351,7 @@ export default function PredictionDetailScreen({
   }
 
 
-  // ==========================================================
-  // REGISTRAR AÇÃO CONCLUÍDA
-  // ==========================================================
+ 
 
   function markActionDone() {
 
@@ -380,9 +362,7 @@ export default function PredictionDetailScreen({
   }
 
 
-  // ==========================================================
-  // INTERFACE
-  // ==========================================================
+  
 
   return (
 
@@ -393,9 +373,7 @@ export default function PredictionDetailScreen({
         showsVerticalScrollIndicator={false}
       >
 
-        {/* ==================================================
-            CABEÇALHO
-        ================================================== */}
+        
 
         <BackHeader
           title="Detalhes do Cliente"
@@ -403,9 +381,7 @@ export default function PredictionDetailScreen({
         />
 
 
-        {/* ==================================================
-            SCORE DE RETENÇÃO
-        ================================================== */}
+        
 
         <Card style={styles.scoreCard}>
 
@@ -418,9 +394,7 @@ export default function PredictionDetailScreen({
         </Card>
 
 
-        {/* ==================================================
-            DADOS DO CLIENTE
-        ================================================== */}
+        
 
         <Card style={styles.card}>
 
@@ -479,9 +453,7 @@ export default function PredictionDetailScreen({
         </Card>
 
 
-        {/* ==================================================
-            INDICADORES DE RETENÇÃO
-        ================================================== */}
+        
 
         <Card style={styles.card}>
 
@@ -522,9 +494,7 @@ export default function PredictionDetailScreen({
         </Card>
 
 
-        {/* ==================================================
-            RECOMENDAÇÕES
-        ================================================== */}
+        
 
         <Card style={styles.card}>
 
@@ -561,9 +531,7 @@ export default function PredictionDetailScreen({
         </Card>
 
 
-        {/* ==================================================
-            GESTÃO DE RETENÇÃO
-        ================================================== */}
+        
 
         <Card style={styles.card}>
 
@@ -573,7 +541,7 @@ export default function PredictionDetailScreen({
           />
 
 
-          {/* CONTATO */}
+          
 
           <TouchableOpacity
             style={styles.primaryButton}
@@ -596,7 +564,7 @@ export default function PredictionDetailScreen({
           </TouchableOpacity>
 
 
-          {/* ACOMPANHAMENTO */}
+          
 
           <TouchableOpacity
             style={styles.secondaryButton}
@@ -619,7 +587,7 @@ export default function PredictionDetailScreen({
           </TouchableOpacity>
 
 
-          {/* AÇÃO CONCLUÍDA */}
+          
 
           <TouchableOpacity
             style={styles.secondaryButton}
@@ -644,9 +612,7 @@ export default function PredictionDetailScreen({
         </Card>
 
 
-        {/* ==================================================
-            HISTÓRICO
-        ================================================== */}
+        
 
         <Card style={styles.card}>
 
@@ -721,9 +687,7 @@ export default function PredictionDetailScreen({
         </Card>
 
 
-        {/* ==================================================
-            RADAR DE PÓS-VENDA
-        ================================================== */}
+        
 
         <View style={styles.radarSection}>
 
@@ -794,9 +758,7 @@ export default function PredictionDetailScreen({
 }
 
 
-// ============================================================
-// ESTILOS
-// ============================================================
+
 
 const styles = StyleSheet.create({
 
@@ -811,9 +773,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // SCORE
-  // ==========================================================
+  
 
   scoreCard: {
     marginBottom: spacing.md,
@@ -829,18 +789,14 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // CARDS
-  // ==========================================================
+  
 
   card: {
     marginBottom: spacing.md,
   },
 
 
-  // ==========================================================
-  // INDICADORES
-  // ==========================================================
+  
 
   factorItem: {
     flexDirection: 'row',
@@ -867,9 +823,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // RECOMENDAÇÕES
-  // ==========================================================
+  
 
   actionItem: {
     flexDirection: 'row',
@@ -902,9 +856,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // BOTÃO PRINCIPAL
-  // ==========================================================
+  
 
   primaryButton: {
     backgroundColor: colors.fordBlueLight,
@@ -924,9 +876,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // BOTÕES SECUNDÁRIOS
-  // ==========================================================
+  
 
   secondaryButton: {
     backgroundColor: colors.bgInput,
@@ -948,9 +898,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // HISTÓRICO
-  // ==========================================================
+  
 
   historyEmpty: {
     alignItems: 'center',
@@ -1000,9 +948,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // ==========================================================
-  // RADAR DE PÓS-VENDA
-  // ==========================================================
+  
 
   radarSection: {
     marginTop: spacing.sm,

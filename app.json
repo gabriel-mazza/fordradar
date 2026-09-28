@@ -13,10 +13,11 @@
       "bundleIdentifier": "com.ford.radar"
     },
     "android": {
+      "package": "com.ford.radar",
+      "allowBackup": false,
       "adaptiveIcon": {
         "backgroundColor": "#080D14"
-      },
-      "package": "com.ford.radar"
+      }
     },
     "plugins": [
       "expo-secure-store",

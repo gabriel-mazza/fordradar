@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,15 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 import {
   BackHeader,
   ScoreBadge,
   Card,
 } from '../components/UI';
+
+import { listPredictions } from '../services/api';
 
 import {
   colors,
@@ -47,225 +50,37 @@ type MockPrediction = {
   actionHistory: ActionHistory[];
 };
 
-const MOCK_PREDICTIONS: MockPrediction[] = [
-  {
-    id: 1,
-    customerName: 'João da Silva',
-    customerEmail: 'joao.silva@email.com',
-    phone: '(11) 99999-1001',
-    vin: '9BWZZZ377VT004251',
-    predictionDate: '2026-09-12',
-    retentionScore: 28.5,
-    risk: 'alto',
-    vehicle: 'Ford Territory 2025',
-    lastService: '08/02/2026',
-    riskFactors: [
-      'Última revisão há mais de 6 meses',
-      'Baixa frequência de contato',
-      'Não realizou a revisão recomendada',
-    ],
-    actionHistory: [
-      {
-        id: 101,
-        text: 'Acompanhamento prioritário agendado',
-        date: '11/09/2026 15:20',
-        icon: 'calendar-outline',
-      },
-      {
-        id: 102,
-        text: 'Contato de relacionamento realizado',
-        date: '10/09/2026 10:45',
-        icon: 'call-outline',
-      },
-      {
-        id: 103,
-        text: 'Revisão preventiva recomendada',
-        date: '04/09/2026 14:10',
-        icon: 'construct-outline',
-      },
-    ],
-  },
 
-  {
-    id: 2,
-    customerName: 'Maria Oliveira',
-    customerEmail: 'maria.oliveira@email.com',
-    phone: '(11) 98888-2002',
-    vin: '8AFZZZ377VT008912',
-    predictionDate: '2026-09-12',
-    retentionScore: 78.4,
-    risk: 'baixo',
-    vehicle: 'Ford Mustang Mach-E',
-    lastService: '21/07/2026',
-    riskFactors: [
-      'Revisões em dia',
-      'Bom histórico de relacionamento',
-    ],
-    actionHistory: [
-      {
-        id: 201,
-        text: 'Acompanhamento de relacionamento registrado',
-        date: '05/09/2026 11:30',
-        icon: 'checkmark-circle-outline',
-      },
-      {
-        id: 202,
-        text: 'Contato de relacionamento realizado',
-        date: '28/08/2026 16:15',
-        icon: 'call-outline',
-      },
-      {
-        id: 203,
-        text: 'Revisão de manutenção realizada',
-        date: '21/07/2026 09:40',
-        icon: 'construct-outline',
-      },
-    ],
-  },
+function mapRisk(score: number): RiskLevel {
+  if (score < 40) return 'alto';
+  if (score < 70) return 'medio';
+  return 'baixo';
+}
 
-  {
-    id: 3,
-    customerName: 'Carlos Santos',
-    customerEmail: 'carlos.santos@email.com',
-    phone: '(11) 97777-3003',
-    vin: '9BFZZZ377VT002345',
-    predictionDate: '2026-09-11',
-    retentionScore: 51.2,
-    risk: 'medio',
-    vehicle: 'Ford Ranger 2024',
-    lastService: '15/04/2026',
-    riskFactors: [
-      'Intervalo elevado desde a última revisão',
-      'Pouca interação recente',
-    ],
-    actionHistory: [
-      {
-        id: 301,
-        text: 'Acompanhamento agendado',
-        date: '10/09/2026 13:20',
-        icon: 'calendar-outline',
-      },
-      {
-        id: 302,
-        text: 'Contato com cliente registrado',
-        date: '08/09/2026 09:50',
-        icon: 'call-outline',
-      },
-    ],
-  },
-
-  {
-    id: 4,
-    customerName: 'Ana Paula Costa',
-    customerEmail: 'ana.costa@email.com',
-    phone: '(11) 96666-4004',
-    vin: '8AFZZZ377VT005678',
-    predictionDate: '2026-09-10',
-    retentionScore: 84.7,
-    risk: 'baixo',
-    vehicle: 'Ford Bronco Sport 2025',
-    lastService: '02/08/2026',
-    riskFactors: [
-      'Revisões em dia',
-      'Alta interação com a concessionária',
-    ],
-    actionHistory: [
-      {
-        id: 401,
-        text: 'Oportunidade de renovação apresentada',
-        date: '02/09/2026 14:35',
-        icon: 'car-outline',
-      },
-      {
-        id: 402,
-        text: 'Contato de relacionamento realizado',
-        date: '15/08/2026 10:20',
-        icon: 'call-outline',
-      },
-      {
-        id: 403,
-        text: 'Revisão preventiva concluída',
-        date: '02/08/2026 08:55',
-        icon: 'checkmark-circle-outline',
-      },
-    ],
-  },
-
-  {
-    id: 5,
-    customerName: 'Ricardo Mendes',
-    customerEmail: 'ricardo.mendes@email.com',
-    phone: '(11) 95555-5005',
-    vin: '9BWZZZ377VT007891',
-    predictionDate: '2026-09-09',
-    retentionScore: 35.8,
-    risk: 'alto',
-    vehicle: 'Ford Maverick 2024',
-    lastService: '12/01/2026',
-    riskFactors: [
-      'Revisão atrasada',
-      'Queda na frequência de visitas',
-      'Cliente sem contato recente',
-    ],
-    actionHistory: [
-      {
-        id: 501,
-        text: 'Plano de retenção registrado',
-        date: '09/09/2026 16:40',
-        icon: 'shield-checkmark-outline',
-      },
-      {
-        id: 502,
-        text: 'Acompanhamento prioritário agendado',
-        date: '08/09/2026 11:15',
-        icon: 'calendar-outline',
-      },
-      {
-        id: 503,
-        text: 'Tentativa de contato registrada',
-        date: '07/09/2026 09:25',
-        icon: 'call-outline',
-      },
-    ],
-  },
-
-  {
-    id: 6,
-    customerName: 'Fernanda Lima',
-    customerEmail: 'fernanda.lima@email.com',
-    phone: '(11) 94444-6006',
-    vin: '8AFZZZ377VT009876',
-    predictionDate: '2026-09-08',
-    retentionScore: 63.9,
-    risk: 'medio',
-    vehicle: 'Ford Territory 2024',
-    lastService: '29/05/2026',
-    riskFactors: [
-      'Próxima revisão se aproximando',
-      'Interação moderada com a concessionária',
-    ],
-    actionHistory: [
-      {
-        id: 601,
-        text: 'Revisão preventiva recomendada',
-        date: '06/09/2026 15:10',
-        icon: 'construct-outline',
-      },
-      {
-        id: 602,
-        text: 'Contato de relacionamento realizado',
-        date: '04/09/2026 10:35',
-        icon: 'call-outline',
-      },
-      {
-        id: 603,
-        text: 'Acompanhamento de manutenção registrado',
-        date: '01/09/2026 14:50',
-        icon: 'car-outline',
-      },
-    ],
-  },
-];
+function mapApiPrediction(api: {
+  id: number;
+  vin: string;
+  customerName: string;
+  customerEmail: string;
+  phone: string;
+  retentionScore: number;
+  predictionDate: string;
+}): MockPrediction {
+  return {
+    id: api.id,
+    customerName: api.customerName,
+    customerEmail: api.customerEmail,
+    phone: api.phone,
+    vin: api.vin,
+    predictionDate: api.predictionDate,
+    retentionScore: api.retentionScore,
+    risk: mapRisk(api.retentionScore),
+    vehicle: 'Não informado',
+    lastService: 'Não informado',
+    riskFactors: [],
+    actionHistory: [],
+  };
+}
 
 function getRiskLabel(risk: RiskLevel) {
   if (risk === 'alto') {
@@ -384,11 +199,35 @@ export default function PredictionsScreen({
     'todos' | RiskLevel
   >('todos');
 
+  const [predictions, setPredictions] = useState<MockPrediction[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  const fetchPredictions = useCallback(async () => {
+    setLoading(true);
+    setLoadError(null);
+    try {
+      const page = await listPredictions(0, 50);
+      setPredictions(page.content.map(mapApiPrediction));
+    } catch (err) {
+      setLoadError('Não foi possível carregar os clientes. Puxe para atualizar ou tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchPredictions();
+    }, [fetchPredictions])
+  );
+
   const filteredPredictions = useMemo(() => {
     const normalizedSearch =
       search.trim().toLowerCase();
 
-    return MOCK_PREDICTIONS.filter(
+    return predictions.filter(
       (item) => {
         const matchesSearch =
           !normalizedSearch ||
@@ -409,7 +248,7 @@ export default function PredictionsScreen({
         );
       }
     );
-  }, [search, filter]);
+  }, [search, filter, predictions]);
 
   function handlePredictionPress(
     item: MockPrediction
@@ -546,7 +385,7 @@ export default function PredictionsScreen({
               ]}
             >
               {
-                MOCK_PREDICTIONS.filter(
+                predictions.filter(
                   (item) =>
                     item.risk === 'alto'
                 ).length
@@ -555,7 +394,24 @@ export default function PredictionsScreen({
           </View>
         </View>
 
-        {filteredPredictions.length === 0 ? (
+        {loading ? (
+          <View style={styles.empty}>
+            <Text style={styles.emptyTitle}>Carregando clientes...</Text>
+          </View>
+        ) : loadError ? (
+          <View style={styles.empty}>
+            <Ionicons
+              name="alert-circle-outline"
+              size={42}
+              color={colors.scoreLow}
+              style={{ marginBottom: spacing.md }}
+            />
+            <Text style={styles.emptyTitle}>{loadError}</Text>
+            <TouchableOpacity onPress={fetchPredictions} style={{ marginTop: spacing.md }}>
+              <Text style={{ color: colors.accent, fontWeight: '600' }}>Tentar novamente</Text>
+            </TouchableOpacity>
+          </View>
+        ) : filteredPredictions.length === 0 ? (
           <View style={styles.empty}>
             <Ionicons
               name="search-outline"
